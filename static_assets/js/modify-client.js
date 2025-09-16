@@ -48,6 +48,18 @@ AFRAME.registerComponent("handle-drag-and-drop", {
 						y: y,
 						z: z - (event.movementY * 0.01 + event.movementX * 0.01 * zDirect),
 					});
+
+                // Dispatch event position-change
+                const newPos = this.targetEl.getAttribute("position");
+                document.dispatchEvent(new CustomEvent("position-change", {
+                    detail: {
+                        id: this.targetEl.id,
+                        x: newPos.x,
+                        y: newPos.y,
+                        z: newPos.z,
+                    }
+                }));
+                // console.log("Position changed:", newPos);
             }
         });
         window.addEventListener("mouseup", (event) => {

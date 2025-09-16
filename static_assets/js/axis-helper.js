@@ -94,6 +94,14 @@ AFRAME.registerComponent("axis-selector", {
             if (groupAxis) {
                 const isVisible = groupAxis.getAttribute("visible");
                 groupAxis.setAttribute("visible", !isVisible);
+				setCustomObjectTab(parent.id, {
+					posX: parent.getAttribute("position").x,
+					posY: parent.getAttribute("position").y,
+					posZ: parent.getAttribute("position").z,
+					rotX: parent.getAttribute("rotation").x,
+					rotY: parent.getAttribute("rotation").y,
+					rotZ: parent.getAttribute("rotation").z,
+				});
             }
         });
     }

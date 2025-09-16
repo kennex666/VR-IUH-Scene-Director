@@ -149,6 +149,43 @@
     <p class="text-white">Bạn đang ở <span class="" id="currentLocation">Loading</span></p>
   </div>
 
+  
+
+    <!-- Create a popup menu for additional options -->
+    <div class="fixed bottom-16 right-4 bg-[--color-primary] text-white p-4 rounded-lg shadow-lg z-40 hidden" id="popup-custom-value">
+      <div class="popup-content">
+        <h3 class="uppercase text-center font-bold">Thông số tuỳ chỉnh</h3>
+        <!-- Create x,y,z input (postion) and rotation xyz (divided 2 tabs) -->
+        <div class="grid grid-cols-2 mt-4 gap-2">
+          <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30 bg-white/30" data-tab="position">Vị trí</button>
+          <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30" data-tab="rotation">Xoay</button>
+        </div>
+        <div class="tab-content mt-4">
+          <div class="flex flex-col gap-1" tab="position">
+            <div><label class="mr-2" for="posX">X:</label>
+            <input type="number" data-input="posX" class="text-black" step="0.1"></div>
+            <div><label class="mr-2" for="posY">Y:</label>
+            <input type="number" data-input="posY" class="text-black" step="0.1"></div>
+            <div><label class="mr-2" for="posZ">Z:</label>
+            <input type="number" data-input="posZ" class="text-black" step="0.1"></div>
+          </div>
+          <div class="flex flex-col gap-1 hidden" tab="rotation">
+            <div><label class="mr-2" for="rotX">X:</label>
+            <input type="number" data-input="rotX" class="text-black" step="1"></div>
+            <div><label class="mr-2" for="rotY">Y:</label>
+            <input type="number" data-input="rotY" class="text-black" step="1"></div>
+            <div><label class="mr-2" for="rotZ">Z:</label>
+            <input type="number" data-input="rotZ" class="text-black" step="1"></div>
+          </div>
+        </div>
+
+        <div class="grid-cols-3 grid gap-2">
+          <button data-tab="save" class="bg-[--color-primary-light] text-white px-4 py-2 rounded mt-4 hover:bg-[--color-primary-light] hover:opacity-90 col-span-2">Lưu thay đổi</button>
+          <button data-tab="close" class="bg-[--color-primary-light] text-white px-4 py-2 rounded mt-4 hover:bg-[--color-primary-light] hover:opacity-90">Đóng</button>
+        </div>
+      </div>
+    </div>
+
   <div class="menu-bottom flex flex-row items-center justify-between px-4 py-1 md:px-6 md:py-2 bg-[--color-primary] opacity-80 text-xs md:text" id="menu-bottom">
     <!-- group button 1 -->
     <div class="flex flex-row items-center gap-3">
@@ -165,29 +202,11 @@
 
     <!-- group button 2 -->
     <div class="flex flex-row items-center gap-3">
-      <button data-intro="Hình toàn cảnh" data-step="2" class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller="home" onclick="controllMenu(this)" title="Hình toàn cảnh">
-        <i class="fa-solid fa-house"></i>
+      <button class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller-attribute="" data-controller="setFavorite" onclick="controllMenu(this)" title="Đặt làm vị trí mặc định">
+        <i class="fa-solid fa-star"></i>
       </button>
-      <button data-intro="Bật/tắt âm thanh" data-step="3" class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller="volumnEnable" onclick="controllMenu(this)" title="Bật/tắt âm thanh">
-        <i class="fa-solid fa-volume-high"></i>
-      </button>
-      <button data-intro="Thu nhỏ góc nhìn" data-step="4" class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller="zoomOut" onclick="controllMenu(this)" title="Zoom ra">
-        <i class="fa-solid fa-minus"></i>
-      </button>
-      <button data-intro="Phóng to góc nhìn" data-step="5" class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller="zoomIn" onclick="controllMenu(this)" title="Zoom vào">
-        <i class="fa-solid fa-plus"></i>
-      </button>
-      <button data-intro="Xem thông tin trường trên Google Maps" data-step="6" class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller="locationMap" onclick="controllMenu(this)" title="Xem bản đồ">
-        <i class="fa-solid fa-location-dot"></i>
-      </button>
-      <button data-intro="Bật/tắt xoay tự động" data-step="7" class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller="turnRotate" onclick="controllMenu(this)" title="Quay tự động">
-        <i class="fa-solid fa-rotate"></i>
-      </button>
-      <button data-intro="Bật/tắt cảm biến xoay trên điện thoại" data-step="8" class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller="turnSensor" onclick="controllMenu(this)" title="Bật/tắt cảm biến con quay hồi chuyển">
-        <i class="fa-solid fa-group-arrows-rotate"></i>
-      </button>
-      <button data-intro="Hiển thị thông tin mô tả về trường" data-step="9" class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller-attribute="generalinfo-dialog" data-controller="openGuide" onclick="controllMenu(this)" title="Bảng thông tin">
-        <i class="fa-solid fa-info"></i>
+      <button class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller-attribute="generalinfo-dialog" data-controller="toggleCustomValuePopup" onclick="controllMenu(this)" title="Thông số tuỳ chỉnh">
+        <i class="fa-solid fa-pencil"></i>
       </button>
     </div>
 
@@ -200,6 +219,5 @@
         <i class="fa-solid fa-angles-right"></i>
       </button> -->
     </div>
-
   </div>
 </html>
