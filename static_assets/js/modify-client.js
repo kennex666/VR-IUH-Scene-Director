@@ -22,11 +22,14 @@ AFRAME.registerComponent("handle-drag-and-drop", {
         });
 
         el.addEventListener("mouseenter", (event) => {
+            if (window.__holdingAxis && window.__holdingAxis !== this.data.axis) return;
 			this.isHoldThisObject = true;
             window.__cam.components["look-controls"].pause();
+            window.__holdingAxis = this.data.axis;
 		});
 
         window.addEventListener("mousemove", (event) => {
+            if (window.__holdingAxis && window.__holdingAxis !== this.data.axis) return;
             if (this.isHoldThisObject && this.isHolding) {
                 const { xDirect, yDirect, zDirect } = this.handleXYZMovement();
                 const { x, y, z } = this.targetEl.getAttribute("position");
@@ -66,6 +69,7 @@ AFRAME.registerComponent("handle-drag-and-drop", {
             this.isHolding = false;
             this.isHoldThisObject = false;
             window.__cam.components["look-controls"].play();
+            window.__holdingAxis = null;
         });
 
         window.addEventListener("mousedown", (event) => {
