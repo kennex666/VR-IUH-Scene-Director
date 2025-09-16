@@ -23,13 +23,17 @@ AFRAME.registerComponent("handle-drag-and-drop", {
 
         el.addEventListener("mouseenter", (event) => {
             if (window.__holdingAxis && window.__holdingAxis !== this.data.axis) return;
+
+            if (window.__holdingTarget && window.__holdingTarget !== this.el) return;
 			this.isHoldThisObject = true;
             window.__cam.components["look-controls"].pause();
             window.__holdingAxis = this.data.axis;
+            window.__holdingTarget = this.el;
 		});
 
         window.addEventListener("mousemove", (event) => {
             if (window.__holdingAxis && window.__holdingAxis !== this.data.axis) return;
+            if (window.__holdingTarget && window.__holdingTarget !== this.el) return;
             if (this.isHoldThisObject && this.isHolding) {
                 const { xDirect, yDirect, zDirect } = this.handleXYZMovement();
                 const { x, y, z } = this.targetEl.getAttribute("position");
@@ -70,6 +74,7 @@ AFRAME.registerComponent("handle-drag-and-drop", {
             this.isHoldThisObject = false;
             window.__cam.components["look-controls"].play();
             window.__holdingAxis = null;
+            window.__holdingTarget = null;
         });
 
         window.addEventListener("mousedown", (event) => {
