@@ -98,7 +98,7 @@ const handleTabModify = () => {
 			}
 
 			if (tab === "close") {
-				popup.style.display = "none";
+				popup.classList.add("hidden");
 			}
 		});
 	});
