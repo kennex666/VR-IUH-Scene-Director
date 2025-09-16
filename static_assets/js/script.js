@@ -162,6 +162,41 @@ const MenuController = {
 	toggleCustomValuePopup: function() {
 		const popup = document.querySelector("#popup-custom-value");
 		popup.classList.toggle("hidden");
+	},
+	addHotpots: function(type = "goAHead") {
+		// <a-entity position="0 1.25 -3"  rotation="0 0 0" id="test" axis-helper>
+		const aEntity = document.createElement("a-entity");
+		aEntity.setAttribute("position", "0 1.25 -3");
+		aEntity.setAttribute("rotation", "0 0 0");
+		const uniqueId = `hotpot-${Date.now()}`;
+		aEntity.setAttribute("id", uniqueId);
+
+		const spot = {
+			id: uniqueId,
+			title: "Điểm di chuyển",
+			type: type,
+			position: { x: 0, y: 0, z: 0 },
+			rotation: { x: 0, y: 0, z: 0 },
+		}
+
+		switch (type) {
+			case "goAHead":
+				aEntity.appendChild(createSpot(spot));
+				break;
+			case "highLight":
+				aEntity.appendChild(createLHighlightSpots(spot));
+				break;
+			case "markPoint":
+				aEntity.appendChild(createMarkPoint(spot));
+				break;
+			default:
+				alert("Loại điểm không hợp lệ!");
+				break;
+		}
+
+		aEntity.setAttribute("axis-helper", "");
+		document.querySelector("a-scene").appendChild(aEntity);
+		console.log("Added new hotpot:", aEntity);
 	}
 }
 
@@ -176,4 +211,10 @@ function controllMenu(el) {
 window.onload = function () {
 	window.__cam = document.querySelector("#cam");
 	handleTabModify();
+	const locationBtn = document.querySelector(".btn-add-location");
+	const submenu = document.querySelector(".submenu");
+
+	locationBtn.addEventListener("click", () => {
+		submenu.classList.toggle("hidden");
+	});
 }

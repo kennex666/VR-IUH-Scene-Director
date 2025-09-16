@@ -26,6 +26,7 @@
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script src="/static_assets/js/modify-client.js"></script>
   <script src="/static_assets/js/axis-helper.js"></script>
+  <script src="/static_assets/js/hotspot-helper.js"></script>
 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css">
@@ -201,12 +202,53 @@
     </div>
 
     <!-- group button 2 -->
-    <div class="flex flex-row items-center gap-3">
-      <button class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller-attribute="" data-controller="setFavorite" onclick="controllMenu(this)" title="Đặt làm vị trí mặc định">
-        <i class="fa-solid fa-star"></i>
-      </button>
+    <div class="flex flex-row items-center gap-3 relative">
+      <div class="relative">
+        <!-- Nút add -->
+        <button 
+          class="btn-add-location w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" 
+          title="Thêm điểm di chuyển">
+          <i class="fa-solid fa-add"></i>
+        </button>
+      
+        <!-- Nhóm 3 nút con -->
+        <div class="submenu absolute bottom-full left-1/2 -translate-x-1/2 translate-y-[-15%] flex flex-col items-center gap-2 hidden bg-[--color-primary] p-2 rounded-lg shadow-lg">
+          <button class="sub-btn w-8 h-8 border-2 border-white rounded-full text-[--color-quaternary] 
+                         hover:border-[--color-secondary-light] hover:[--color-tertiary-light] flex items-center justify-center" 
+            data-controller="addHotpots" 
+            data-controller-attribute="markPoint"
+            onclick="controllMenu(this)"
+            title="Thêm điểm đánh dấu">
+            <i class="fa-solid fa-location-dot"></i>
+          </button>
+      
+          <button class="sub-btn w-8 h-8 border-2 border-white rounded-full text-[--color-quaternary] 
+                         hover:border-[--color-secondary-light] hover:[--color-tertiary-light] flex items-center justify-center" 
+            data-controller="addHotpots" 
+            data-controller-attribute="goAHead"
+            onclick="controllMenu(this)"
+            title="Thêm điểm di chuyển">
+            <i class="fa-solid fa-arrows-up-down-left-right"></i>
+          </button>
+      
+          <button class="sub-btn w-8 h-8 border-2 border-white rounded-full text-[--color-quaternary] 
+                         hover:border-[--color-secondary-light] hover:[--color-tertiary-light] flex items-center justify-center" 
+            data-controller="addHotpots"
+            data-controller-attribute="highLight"
+            onclick="controllMenu(this)"
+            title="Thêm điểm thông tin">
+            <i class="fa-solid fa-circle-info"></i>
+          </button>
+        </div>
+      </div>
+      
+
       <button class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller-attribute="generalinfo-dialog" data-controller="toggleCustomValuePopup" onclick="controllMenu(this)" title="Thông số tuỳ chỉnh">
         <i class="fa-solid fa-pencil"></i>
+      </button>
+
+      <button class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller-attribute="" data-controller="setFavorite" onclick="controllMenu(this)" title="Đặt làm vị trí mặc định">
+        <i class="fa-solid fa-star"></i>
       </button>
     </div>
 
