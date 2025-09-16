@@ -1,0 +1,1 @@
+powershell .\info.ps1

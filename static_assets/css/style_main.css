@@ -1,0 +1,133 @@
+
+body {
+    user-select: none;
+}
+
+.a-enter-vr-button {
+    display: none !important;
+}
+
+.a-enter-ar-button {
+    display: none !important;
+}
+
+.menu-left {
+    background-color: var(--color-quaternary);
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 23vw;
+    height: 85vh;
+    z-index: 10;
+}
+
+/* define color attribute */
+:root {
+    --color-primary: #262261;
+    --color-secondary: #E51C24;
+    --color-tertiary: #ACB3B9;
+    --color-quaternary: #FFFFFF;
+    --color-quinary: #000000;
+
+    --color-primary-light: #5b5981;
+    /* Nhạt hơn màu chính */
+    --color-secondary-light: #f46a6d;
+    /* Nhạt hơn màu phụ */
+    --color-tertiary-light: #d7dbdf;
+    /* Nhạt hơn màu thứ ba */
+    --color-quaternary-light: #f5f5f5;
+    /* Nhạt hơn màu thứ tư */
+    --color-quinary-light: #333333;
+    /* Nhạt hơn màu thứ năm */
+
+}
+
+.bg-red {
+    background-color: var(--color-secondary);
+}
+
+.menu-left-scroll {
+    overflow-y: auto;
+}
+
+.menu-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    min-width: 100vw;
+    z-index: 11;
+}
+
+.menu-bottom-scroll {
+    overflow-x: auto;
+}
+
+.currentLocation {
+    position: fixed;
+    bottom: 8vh;
+    left: 1rem;
+}
+
+.scroll-box {
+    /* Nền bán trong suốt */
+    scrollbar-width: thin;
+    /* Firefox: thanh cuộn mỏng */
+    scrollbar-color: #888 rgba(255, 255, 255, 0.1);
+    /* Firefox: màu */
+}
+
+/* Tùy chỉnh thanh cuộn cho Chrome, Edge, Safari */
+.scroll-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll-box::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    /* Nền thanh cuộn */
+    border-radius: 8px;
+}
+
+.scroll-box::-webkit-scrollbar-thumb {
+    background-color: #888;
+    /* Màu thanh cuộn */
+    border-radius: 8px;
+}
+
+.scroll-box::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+    /* Khi hover */
+}
+
+/* Effect pop up */
+@keyframes popup-active {
+    0% {
+        transform: scale(0);
+        /* from bottom popup */
+        transform-origin: 100% 100%;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes popup-out {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(0);
+        /* To bottom-right corner */
+        transform-origin: 100% 100%;
+        display: none;
+    }
+}
+
+.popup-active{
+    animation: popup-active 0.4s forwards;
+}
+
+.popup-out{
+    animation: popup-out 0.4s forwards;
+}
