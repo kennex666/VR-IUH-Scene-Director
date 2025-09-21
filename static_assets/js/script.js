@@ -367,7 +367,7 @@ const MenuController = {
 			id: uniqueId,
 			title: "Điểm di chuyển",
 			type: type,
-			position: { x: 1, y: 0, z: 0 },
+			position: { x: 0, y: 1.6, z: -3 },
 			rotation: { x: 0, y: 0, z: 0 },
 		};
 

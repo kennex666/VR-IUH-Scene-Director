@@ -82,6 +82,7 @@ AFRAME.registerComponent("axis-helper", {
     }
 });
 
+
 AFRAME.registerComponent("axis-selector", {
     init: function () {
         const el = this.el;
@@ -90,31 +91,45 @@ AFRAME.registerComponent("axis-selector", {
         el.addEventListener("click", (event) => {
             const groupAxis = parent.querySelector(".axis-helper");
             if (groupAxis) {
-                const isVisible = groupAxis.getAttribute("visible");
-                groupAxis.setAttribute("visible", !isVisible);
+                const isVisible = !groupAxis.getAttribute("visible");
+                groupAxis.setAttribute("visible", isVisible);
 				const axes = groupAxis.querySelectorAll(".axis");
-				if (!isVisible) {
-					// thêm class clickable cho các axis
+				if (isVisible) {
+
+					if (window.__selectTargetId) {
+						const oldTarget = window.__selectTargetId;
+						const oldAxes = oldTarget.querySelectorAll(".axis");
+						oldAxes.forEach(axis => {
+							axis.classList.toggle("clickable", false);
+						});
+						setTimeout(() => {
+							oldTarget.setAttribute("visible", false);
+						}, 0);
+					}
+
+					window.__selectTargetId = groupAxis;
 					axes.forEach(axis => {
 						axis.classList.toggle("clickable", true);
 					});
+					setCustomObjectTab(parent.id, {
+						posX: parent.getAttribute("position").x,
+						posY: parent.getAttribute("position").y,
+						posZ: parent.getAttribute("position").z,
+						rotX: parent.getAttribute("rotation").x,
+						rotY: parent.getAttribute("rotation").y,
+						rotZ: parent.getAttribute("rotation").z,
+						scaleX: parent.getAttribute("scale").x,
+						scaleY: parent.getAttribute("scale").y,
+						scaleZ: parent.getAttribute("scale").z,
+					});
 				} else {
 					// remove class clickable cho cac axis
+					window.__selectTargetId = null;
 					axes.forEach(axis => {
 						axis.classList.toggle("clickable", false);
 					});
 				}
-				setCustomObjectTab(parent.id, {
-					posX: parent.getAttribute("position").x,
-					posY: parent.getAttribute("position").y,
-					posZ: parent.getAttribute("position").z,
-					rotX: parent.getAttribute("rotation").x,
-					rotY: parent.getAttribute("rotation").y,
-					rotZ: parent.getAttribute("rotation").z,
-					scaleX: parent.getAttribute("scale").x,
-					scaleY: parent.getAttribute("scale").y,
-					scaleZ: parent.getAttribute("scale").z,
-				});
+				
             }
         });
     }
