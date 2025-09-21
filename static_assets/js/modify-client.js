@@ -16,12 +16,10 @@ AFRAME.registerComponent("handle-drag-and-drop", {
         
     },
     handleMovement: function (el) {
-        el.addEventListener("mouseleave", (event) => {
-			this.isHoldThisObject = true;
-
-        });
 
         el.addEventListener("mouseenter", (event) => {
+            const isVisible = this.el.parentElement.getAttribute("visible");
+			if (!isVisible) return;
             if (window.__holdingAxis && window.__holdingAxis !== this.data.axis) return;
 
             if (window.__holdingTarget && window.__holdingTarget !== this.el) return;

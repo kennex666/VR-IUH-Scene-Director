@@ -1,7 +1,7 @@
 function createAxis({id, rotation, axis, color}) {
 	const axisEntity = document.createElement("a-entity");
 	axisEntity.setAttribute("handle-drag-and-drop", `axis: ${axis}; targetEl: #${id}`);
-	axisEntity.setAttribute("class", "axis clickable");
+	axisEntity.setAttribute("class", "axis");
 	axisEntity.setAttribute("rotation", rotation);
 
 	const shaft = document.createElement("a-entity");
@@ -11,7 +11,7 @@ function createAxis({id, rotation, axis, color}) {
 	);
 	shaft.setAttribute("position", "0 0.6 0");
 	shaft.setAttribute("material", `color: ${color}`);
-	shaft.setAttribute("class", "axis clickable");
+	shaft.setAttribute("class", "axis");
 
 	const head = document.createElement("a-entity");
 	head.setAttribute(
@@ -20,7 +20,7 @@ function createAxis({id, rotation, axis, color}) {
 	);
 	head.setAttribute("position", "0 1.3 0");
 	head.setAttribute("material", `color: ${color}`);
-	head.setAttribute("class", "axis clickable");
+	head.setAttribute("class", "axis");
 
 	axisEntity.appendChild(shaft);
 	axisEntity.appendChild(head);
@@ -92,6 +92,18 @@ AFRAME.registerComponent("axis-selector", {
             if (groupAxis) {
                 const isVisible = groupAxis.getAttribute("visible");
                 groupAxis.setAttribute("visible", !isVisible);
+				const axes = groupAxis.querySelectorAll(".axis");
+				if (!isVisible) {
+					// thêm class clickable cho các axis
+					axes.forEach(axis => {
+						axis.classList.toggle("clickable", true);
+					});
+				} else {
+					// remove class clickable cho cac axis
+					axes.forEach(axis => {
+						axis.classList.toggle("clickable", false);
+					});
+				}
 				setCustomObjectTab(parent.id, {
 					posX: parent.getAttribute("position").x,
 					posY: parent.getAttribute("position").y,
