@@ -72,7 +72,7 @@
         <img id="hotspot" src="./static_assets/img/go.png"/>
 
         <!-- Point facility 1 -->
-        <img id="Cs1-Sky-1224" src="./static_assets/img/360/Cs1-Sky-1224.jpg"/>
+        <img id="Cs1-Sky-1224" src="./static_assets/img/360/Cs1-E7-0425.jpg"/>
          
         <!-- Template cho markpoint -->
         <script id="markpoint-template" type="text/html">
@@ -123,26 +123,6 @@
         look-controls="enabled: true; reverseMouseDrag: true;"
       ></a-entity>
 
-      <a-entity position="0 1.25 -3"  rotation="0 0 0" id="test" axis-helper>
-        <a-plane class="clickable" position="0 0 0" color="transparent" opacity="0" width="1" height="1" look-at="#cam" axis-selector>
-          <a-ring radius-inner="0.02" radius-outer="0.07" color="#fff" look-at="#cam"
-            animation__scale="property: scale; from: 0 0 0; to: 3 3 3; dur: 1500; easing: easeOutQuad; loop: true"
-            animation__opacity="property: opacity; from: 1; to: 0; dur: 1500; easing: easeOutQuad; loop: true">
-          </a-ring>
-  
-          <a-ring radius-inner="0.00" radius-outer="0.05" color="#FF6B6B" look-at="#cam"
-            animation__scale="property: scale; from: 0 0 0; to: 3 3 3; dur: 1500; easing: easeInOutSine; loop: true"
-            animation__opacity="property: opacity; from: 1; to: 0; dur: 1500; easing: easeInOutSine; loop: true">
-          </a-ring>
-  
-          <a-ring radius-inner="0.07" radius-outer="0.09" color="#262261" look-at="#cam"
-            animation__scale="property: scale; from: 0 0 0; to: 3 3 3; dur: 1500; easing: easeInOutSine; loop: true"
-            animation__opacity="property: opacity; from: 1; to: 0; dur: 1500; easing: easeInOutSine; loop: true">
-          </a-ring>
-        </a-plane>
-      </a-entity>
-
-
     </a-scene>
   </body>
   
@@ -155,18 +135,14 @@
     <!-- Create a popup menu for additional options -->
     <div class="fixed bottom-16 right-4 bg-[--color-primary] text-white p-4 rounded-lg shadow-lg z-40 hidden" id="popup-custom-value">
       <div class="popup-content">
-        <h3 class="uppercase text-center font-bold">Thông số tuỳ chỉnh</h3>
+        <h3 class="uppercase text-center font-bold">Cỉnh sửa</h3>
         <select class="w-full text-black mt-4" id="select-object">
           <option value="" disabled selected>Dịch chuyển đến</option>
           <option value="object1">Đối tượng 1</option>
           <option value="object2">Đối tượng 2</option>
           <option value="object3">Đối tượng 3</option>
         </select>
-        <!-- Create x,y,z input (postion) and rotation xyz (divided 2 tabs) -->
-        <div class="grid grid-cols-2 mt-4 gap-2">
-          <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30 bg-white/30" data-tab="position">Vị trí</button>
-          <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30" data-tab="rotation">Xoay</button>
-        </div>
+
         <div class="tab-content mt-4">
           <div class="flex flex-col gap-1" tab="position">
             <div><label class="mr-2" for="posX">X:</label>
@@ -184,8 +160,21 @@
             <div><label class="mr-2" for="rotZ">Z:</label>
             <input type="number" data-input="rotZ" class="text-black" step="1"></div>
           </div>
+          <div class="flex flex-col gap-1 hidden" tab="scale">
+            <div><label class="mr-2" for="scaleX">X:</label>
+            <input type="number" data-input="scaleX" class="text-black" step="0.1" value="1"></div>
+            <div><label class="mr-2" for="scaleY">Y:</label>
+            <input type="number" data-input="scaleY" class="text-black" step="0.1" value="1"></div>
+            <div><label class="mr-2" for="scaleZ">Z:</label>
+            <input type="number" data-input="scaleZ" class="text-black" step="0.1" value="1"></div>
+          </div>
         </div>
-
+        <!-- Create x,y,z input (postion) and rotation xyz (divided 2 tabs) -->
+        <div class="grid grid-cols-3 mt-4 gap-2">
+          <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30 bg-white/30" data-tab="position">Vị trí</button>
+          <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30" data-tab="rotation">Xoay</button>
+          <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30" data-tab="scale">Kích thước</button>
+        </div>
         <div class="grid-cols-3 grid gap-2">
           <button data-tab="save" class="bg-[--color-primary-light] text-white px-4 py-2 rounded mt-4 hover:bg-[--color-primary-light] hover:opacity-90 col-span-2">Lưu thay đổi</button>
           <button data-tab="close" class="bg-[--color-primary-light] text-white px-4 py-2 rounded mt-4 hover:bg-[--color-primary-light] hover:opacity-90">Đóng</button>

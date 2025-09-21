@@ -34,7 +34,7 @@ function createAxis({id, rotation, axis, color}) {
  * @param {string} position - vị trí (mặc định "0 1.25 -3")
  */
 function createAxisHelper(id = "targetBox", position = "0 1.25 -3") {
-	const container = document.querySelector(`#${id}`);
+	const container = document.getElementById(id);
 	if (!container) {
 		console.error(`Element with id "${id}" not found.`);
 		return false;
@@ -68,6 +68,8 @@ function createAxisHelper(id = "targetBox", position = "0 1.25 -3") {
         color: "#4444ff",
         rotation: "90 0 0"
     }));
+
+	entity.setAttribute("visible", false);
     container.appendChild(entity);
 
     return true;
@@ -77,10 +79,6 @@ AFRAME.registerComponent("axis-helper", {
         const el = this.el;
         createAxisHelper(el.id);
         this.isSelected = false;
-
-        const groupAxis = el.querySelector(".axis-helper");
-
-        groupAxis.setAttribute("visible", false);
     }
 });
 
@@ -101,6 +99,9 @@ AFRAME.registerComponent("axis-selector", {
 					rotX: parent.getAttribute("rotation").x,
 					rotY: parent.getAttribute("rotation").y,
 					rotZ: parent.getAttribute("rotation").z,
+					scaleX: parent.getAttribute("scale").x,
+					scaleY: parent.getAttribute("scale").y,
+					scaleZ: parent.getAttribute("scale").z,
 				});
             }
         });

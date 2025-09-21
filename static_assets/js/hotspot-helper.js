@@ -11,9 +11,7 @@ function createLHighlightSpots(spot) {
 	setScaleBasedOnTitleLength(spotElement, spot.title);
 
 	// Đặt các thuộc tính `spot`
-	const spotData = `linkto:#${spot.id};spotgroup:spotGroup-${spot.id};previewTitle:${spot.title};type:${spot.type}`;
-	spotElement.setAttribute("spot", spotData);
-	spotElement.setAttribute("look-at", "#cam");
+		spotElement.setAttribute("look-at", "#cam");
 	// Đặt thuộc tính `position`
 	const position = `${spot.position.x} ${spot.position.y} ${spot.position.z}`;
 	spotElement.setAttribute("position", position);
@@ -33,11 +31,9 @@ function createMarkPoint(spot) {
 	planeElement.setAttribute("look-at", "#cam");
 
 	// Đặt các thuộc tính `spot` cho mặt phẳng
-	const spotData = `linkto:#${spot.id};spotgroup:spotGroup-${spot.id};previewTitle:${spot.title};type:${spot.type}`;
-	planeElement.setAttribute("spot", spotData);
-
+	
 	// Đặt thuộc tính `position` cho mặt phẳng
-	const position = `${spot.position.x} ${spot.position.y} ${spot.position.z}`;
+	const position = `0 0 0`;
 	planeElement.setAttribute("position", position);
 
 	// Tạo `a-ring` bên trong mặt phẳng
@@ -115,18 +111,16 @@ function createSpot(spot) {
 	const spotElement = document.createElement("a-image");
 
 	// Đặt các thuộc tính `spot`
-	const spotData = `linkto:#${spot.id};spotgroup:spotGroup-${spot.id};previewTitle:${spot.title};type:${spot.type}`;
-	spotElement.setAttribute("spot", spotData);
-
+	
 	// Đặt thuộc tính `position`
-	const position = `${spot.position.x} ${spot.position.y} ${spot.position.z}`;
+	const position = `0 0 0`;
 	spotElement.setAttribute("position", position);
 	spotElement.setAttribute("src", "#hotspot");
 
 	// lấy rotation của spot
 	spotElement.setAttribute(
 		"rotation",
-		`${spot.rotation.x} ${spot.rotation.y} ${spot.rotation.z}`
+		`0 0 0`
 	);
 
 	// animation cho spot khi hover vào to len va nho lai
