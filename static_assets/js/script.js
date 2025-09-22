@@ -81,7 +81,7 @@ const sceneTest = 	{
 			scale: { x: 1, y: 1, z: 1 },
 		},
 		{
-			id: "Cs1-EngineRoom40-1224",
+			id: "Cs1-EngineRoom4.0-1224",
 			type: "markPoint",
 			title: "Phòng nhà máy 4.0",
 			position: { x: -4.38, y: -3.63, z: -1.627 },
@@ -318,7 +318,10 @@ const getCurrentRotation = () => {
 
 const createAxisEntity = (spot) => {
 	const axisHelper = document.createElement("a-entity");
-	axisHelper.id = spot.id || `axis-entity-${Date.now()}`;
+	axisHelper.id = `axis-entity-${Date.now()}`;
+
+	axisHelper.setAttribute("location-id", spot.id || "unknown-spot-id");
+	axisHelper.setAttribute("location-type", spot.type || "unknown-spot-type");
 
 	switch (spot.type) {
 		case "goAHead":
@@ -346,6 +349,33 @@ const createAxisEntity = (spot) => {
 		axisHelper.setAttribute("scale", spot.scale);
 	}, 1)
 	return axisHelper;
+}
+
+const getSpotsFromScene = () => {
+	const sceneEl = document.querySelector("a-scene");
+	const spots = sceneEl.querySelectorAll("a-entity[location-id]");
+	const result = [];
+	spots.forEach(spot => {
+		const id = spot.getAttribute("location-id") || "unknown-id";
+		const type = spot.getAttribute("location-type") || "goAhead";
+		const position = spot.getAttribute("position") || { x: 0, y: 0, z: 0 };
+		const rotation = spot.getAttribute("rotation") || { x: 0, y: 0, z: 0 };
+		const scale = spot.getAttribute("scale") || { x: 1, y: 1, z: 1 };
+		result.push({
+			id,
+			type,
+			title: "Unknown Title",
+			position,
+			rotation,
+			scale,
+		});
+	});
+	return result;
+}
+
+const openCustomValuePop = () => {
+	const popup = document.querySelector("#popup-custom-value");
+	popup.classList.toggle("hidden", false);
 }
 
 const MenuController = {
@@ -417,7 +447,6 @@ function loadScene(data) {
 
 	const spots = sceneData.spots || [];
 	for (let spot of spots) {
-		const id = spot.id || `spot-${Date.now()}`;
 		const aEntity = createAxisEntity(spot);
 	};
 }

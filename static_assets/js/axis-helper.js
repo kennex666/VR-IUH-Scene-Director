@@ -111,6 +111,7 @@ AFRAME.registerComponent("axis-selector", {
 					axes.forEach(axis => {
 						axis.classList.toggle("clickable", true);
 					});
+					openCustomValuePop();
 					setCustomObjectTab(parent.id, {
 						posX: parent.getAttribute("position").x,
 						posY: parent.getAttribute("position").y,
