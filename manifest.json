@@ -1,7 +1,7 @@
 {
-	"name": "VR Tour IUH",
-	"short_name": "VR Tour",
-	"description": "Ứng dụng tham quan thực tế ảo tại IUH",
+	"name": "VR Tour Modify Client",
+	"short_name": "Scene Director",
+	"description": "Client chỉnh sửa VR Tour IUH",
 	"start_url": "./index.html",
 	"display": "standalone",
 	"background_color": "#ffffff",
