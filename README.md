@@ -10,6 +10,7 @@
 - Chỉnh sửa thuộc tính của đối tượng 3D.  
 - Quản lý mối quan hệ giữa các thực thể trong không gian ảo.  
 - Tích hợp nhanh với pipeline phát triển hiện có.  
+- Độc lập với trang Admin, hỗ trợ chuyển đổi dữ liệu từ môi trường 3D sang JSON để quản lý dễ dàng.
 
 👉 Thay vì làm việc trực tiếp với code hoặc công cụ phức tạp, bạn có một **bảng điều khiển trực quan** để quản lý phân cảnh.
 
