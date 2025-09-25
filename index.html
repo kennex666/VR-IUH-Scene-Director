@@ -27,6 +27,8 @@
   <script src="/static_assets/js/modify-client.js"></script>
   <script src="/static_assets/js/axis-helper.js"></script>
   <script src="/static_assets/js/hotspot-helper.js"></script>
+  <script src="/static_assets/js/tab-scene.js"></script>
+  <script src="/static_assets/js/tab-message-handler.js"></script>
 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css">
@@ -135,12 +137,9 @@
     <!-- Create a popup menu for additional options -->
     <div class="fixed bottom-16 right-4 bg-[--color-primary] text-white p-4 rounded-lg shadow-lg z-40 hidden" id="popup-custom-value">
       <div class="popup-content">
-        <h3 class="uppercase text-center font-bold">Cỉnh sửa</h3>
-        <select class="w-full text-black mt-4" id="select-object">
+        <h3 class="uppercase text-center font-bold">Chỉnh sửa</h3>
+        <select class="w-full text-black mt-4" id="pop-cus-val-select">
           <option value="" disabled selected>Dịch chuyển đến</option>
-          <option value="object1">Đối tượng 1</option>
-          <option value="object2">Đối tượng 2</option>
-          <option value="object3">Đối tượng 3</option>
         </select>
 
         <div class="tab-content mt-4">
@@ -234,6 +233,7 @@
             title="Thêm điểm thông tin">
             <i class="fa-solid fa-circle-info"></i>
           </button>
+
         </div>
       </div>
       
@@ -244,6 +244,11 @@
 
       <button class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller-attribute="" data-controller="setFavorite" onclick="controllMenu(this)" title="Đặt làm vị trí mặc định">
         <i class="fa-solid fa-star"></i>
+      </button>
+
+      <!-- Save -->
+      <button class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller-attribute="" data-controller="saveCurrentScene" onclick="controllMenu(this)" title="Lưu thay đổi">
+        <i class="fa-solid fa-floppy-disk"></i>
       </button>
     </div>
 

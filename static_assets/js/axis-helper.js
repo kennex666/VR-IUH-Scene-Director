@@ -89,7 +89,9 @@ AFRAME.registerComponent("axis-selector", {
         const parent = el.parentElement;
 
         el.addEventListener("click", (event) => {
+			console.log("Click axis selector");
             const groupAxis = parent.querySelector(".axis-helper");
+			console.log("Group axis:", el);
             if (groupAxis) {
                 const isVisible = !groupAxis.getAttribute("visible");
                 groupAxis.setAttribute("visible", isVisible);
