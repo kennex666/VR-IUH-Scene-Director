@@ -1,3 +1,26 @@
+function getForwardPosition(distance = 5) {
+    const sceneEl = document.querySelector("a-scene");
+	const cameraEl = sceneEl.querySelector("#cam");
+
+	if (!cameraEl) return console.warn("Không tìm thấy camera.");
+
+	// --- Lấy position và rotation từ camera ---
+	const camPos = cameraEl.getAttribute("position");
+	const camRot = cameraEl.getAttribute("rotation");
+
+	// --- Tính vị trí hotspot phía trước camera ---
+	const radY = THREE.MathUtils.degToRad(camRot.y);
+	const radX = THREE.MathUtils.degToRad(camRot.x);
+
+	const hotspotPos = {
+		x: camPos.x - distance * Math.sin(radY),
+		y: camPos.y + distance * Math.sin(radX),
+		z: camPos.z - distance * Math.cos(radY),
+	};
+
+    return hotspotPos;  
+}
+
 AFRAME.components["look-controls"].Component.prototype.onTouchMove = function (
 	t
 ) {

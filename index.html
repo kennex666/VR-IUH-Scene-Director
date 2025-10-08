@@ -29,6 +29,8 @@
   <script src="/static_assets/js/hotspot-helper.js"></script>
   <script src="/static_assets/js/tab-scene.js"></script>
   <script src="/static_assets/js/tab-message-handler.js"></script>
+  <script src="/static_assets/js/hotspots.js"></script>
+  <script src="./static_assets/js/event-handler.js"></script>
 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css">
@@ -73,33 +75,9 @@
       <a-assets id="assetsManager">
         <img id="hotspot" src="./static_assets/img/go.png"/>
 
-        <!-- Point facility 1 -->
+        <!-- init -->
         <img id="Cs1-Sky-1224" src="./static_assets/img/360/Cs1-E7-0425.jpg"/>
          
-        <!-- Template cho markpoint -->
-        <script id="markpoint-template" type="text/html">
-            <a-entity class="markpoint-group" visible="false" look-at="#cam">
-                <a-plane class="markpoint-bg" width="2" height="1.28" color="#262261" opacity="0.8"></a-plane>
-                <a-image class="markpoint-preview" width="0.6" height="0.16"></a-image>
-                <a-image class="markpoint-img" width="1.8" height="1"></a-image>
-            </a-entity>
-            <a-ring class="markpoint-ring" look-at="#cam" radius-inner="0.06" radius-outer="0.08" color="blue" 
-                    animation__scale="property: scale; from: 1 1 1; to: 2 2 2; dur: 1200; easing: linear; loop: true"
-                    animation__opacity="property: opacity; from: 0.9; to: 0; dur: 1200; easing: linear; loop: true"></a-ring>
-            <a-plane class="hover-area" width="1" height="1" color="transparent" opacity="0" position="0 -0.8 0.02" look-at="#cam"></a-plane>
-        </script>
-
-        <!-- template for highlight -->
-         <script id="highlight-template" type="text/html">
-            <a-box 
-              class="highlight-box"
-              width="1.2" height="1.2" depth="1.2"
-              color="#ff0000"
-              opacity="0.5"
-              animation__fade="property: material.opacity; from: 0; to: 0.5; dur: 300; startEvents: showHighlight"
-              animation__fadeout="property: material.opacity; from: 0.5; to: 0; dur: 200; startEvents: hideHighlight">
-            </a-box>
-         </script>
       </a-assets>
 
 
@@ -134,53 +112,69 @@
 
   
 
-    <!-- Create a popup menu for additional options -->
-    <div class="fixed bottom-16 right-4 bg-[--color-primary] text-white p-4 rounded-lg shadow-lg z-40 hidden" id="popup-custom-value">
-      <div class="popup-content">
-        <h3 class="uppercase text-center font-bold">Chỉnh sửa</h3>
-        <select class="w-full text-black mt-4" id="pop-cus-val-select">
-          <option value="" disabled selected>Dịch chuyển đến</option>
-        </select>
+  <!-- Create a popup menu for additional options -->
+  <div class="fixed bottom-16 right-4 bg-[--color-primary] text-white p-4 rounded-lg shadow-lg z-40 hidden" id="popup-custom-value">
+    <div class="popup-content">
+      <h3 class="uppercase text-center font-bold">Chỉnh sửa</h3>
+      <select class="w-full text-black mt-4" id="pop-cus-val-select" disabled>
+        <option value="" disabled selected>Dịch chuyển đến</option>
+      </select>
 
-        <div class="tab-content mt-4">
-          <div class="flex flex-col gap-1" tab="position">
-            <div><label class="mr-2" for="posX">X:</label>
-            <input type="number" data-input="posX" class="text-black" step="0.1"></div>
-            <div><label class="mr-2" for="posY">Y:</label>
-            <input type="number" data-input="posY" class="text-black" step="0.1"></div>
-            <div><label class="mr-2" for="posZ">Z:</label>
-            <input type="number" data-input="posZ" class="text-black" step="0.1"></div>
-          </div>
-          <div class="flex flex-col gap-1 hidden" tab="rotation">
-            <div><label class="mr-2" for="rotX">X:</label>
-            <input type="number" data-input="rotX" class="text-black" step="1"></div>
-            <div><label class="mr-2" for="rotY">Y:</label>
-            <input type="number" data-input="rotY" class="text-black" step="1"></div>
-            <div><label class="mr-2" for="rotZ">Z:</label>
-            <input type="number" data-input="rotZ" class="text-black" step="1"></div>
-          </div>
-          <div class="flex flex-col gap-1 hidden" tab="scale">
-            <div><label class="mr-2" for="scaleX">X:</label>
-            <input type="number" data-input="scaleX" class="text-black" step="0.1" value="1"></div>
-            <div><label class="mr-2" for="scaleY">Y:</label>
-            <input type="number" data-input="scaleY" class="text-black" step="0.1" value="1"></div>
-            <div><label class="mr-2" for="scaleZ">Z:</label>
-            <input type="number" data-input="scaleZ" class="text-black" step="0.1" value="1"></div>
-          </div>
+      <div class="tab-content mt-4">
+        <div class="flex flex-col gap-1" tab="position">
+          <div><label class="mr-2" for="posX">X:</label>
+          <input type="number" data-input="posX" class="text-black" step="0.1"></div>
+          <div><label class="mr-2" for="posY">Y:</label>
+          <input type="number" data-input="posY" class="text-black" step="0.1"></div>
+          <div><label class="mr-2" for="posZ">Z:</label>
+          <input type="number" data-input="posZ" class="text-black" step="0.1"></div>
         </div>
-        <!-- Create x,y,z input (postion) and rotation xyz (divided 2 tabs) -->
-        <div class="grid grid-cols-3 mt-4 gap-2">
-          <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30 bg-white/30" data-tab="position">Vị trí</button>
-          <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30" data-tab="rotation">Xoay</button>
-          <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30" data-tab="scale">Kích thước</button>
+        <div class="flex flex-col gap-1 hidden" tab="rotation">
+          <div><label class="mr-2" for="rotX">X:</label>
+          <input type="number" data-input="rotX" class="text-black" step="1"></div>
+          <div><label class="mr-2" for="rotY">Y:</label>
+          <input type="number" data-input="rotY" class="text-black" step="1"></div>
+          <div><label class="mr-2" for="rotZ">Z:</label>
+          <input type="number" data-input="rotZ" class="text-black" step="1"></div>
         </div>
-        <div class="grid-cols-3 grid gap-2">
-          <button data-tab="save" class="bg-[--color-primary-light] text-white px-4 py-2 rounded mt-4 hover:bg-[--color-primary-light] hover:opacity-90 col-span-2">Lưu thay đổi</button>
-          <button data-tab="close" class="bg-[--color-primary-light] text-white px-4 py-2 rounded mt-4 hover:bg-[--color-primary-light] hover:opacity-90">Đóng</button>
+        <div class="flex flex-col gap-1 hidden" tab="scale">
+          <div><label class="mr-2" for="scaleX">X:</label>
+          <input type="number" data-input="scaleX" class="text-black" step="0.1" value="1"></div>
+          <div><label class="mr-2" for="scaleY">Y:</label>
+          <input type="number" data-input="scaleY" class="text-black" step="0.1" value="1"></div>
+          <div><label class="mr-2" for="scaleZ">Z:</label>
+          <input type="number" data-input="scaleZ" class="text-black" step="0.1" value="1"></div>
         </div>
       </div>
+      <!-- Create x,y,z input (postion) and rotation xyz (divided 2 tabs) -->
+      <div class="grid grid-cols-3 mt-4 gap-2">
+        <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30 bg-white/30" data-tab="position">Vị trí</button>
+        <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30" data-tab="rotation">Xoay</button>
+        <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30" data-tab="scale">Kích thước</button>
+      </div>
+      <div class="grid-cols-3 grid gap-2">
+        <button data-tab="save" class="bg-[--color-primary-light] text-white px-4 py-2 rounded mt-4 hover:bg-[--color-primary-light] hover:opacity-90 col-span-2">Lưu thay đổi</button>
+        <button data-tab="close" class="bg-[--color-primary-light] text-white px-4 py-2 rounded mt-4 hover:bg-[--color-primary-light] hover:opacity-90">Đóng</button>
+      </div>
     </div>
+  </div>
 
+  <!-- Create side menu -->
+  <div class="fixed top-0 left-0 h-full w-[18vw] bg-[--color-primary] text-white p-4 shadow-lg z-40" id="side-menu">
+    <h2 class="text-lg font-bold mb-4 text-center">Hotspot</h2>
+    <ul class="space-y-2 overflow-y-auto h-[80vh]" id="location-list">
+      <!-- Locations will be dynamically added here -->
+      <li>
+        <button class="w-full text-left px-2 py-1 rounded hover:bg-white/30 relative" data-location-id="Cs1-Sky-1224" onclick="">
+          <img src="./static_assets/img/360/Cs1-E7-0425.jpg" alt="Trụ sở chính" class="w-full h-28 object-cover inline-block">
+          <div class="bottom-1 absolute px-2 py-1 bg-[--color-primary] text-sm">Trụ sở chính</div>
+        </button>
+      </li>
+    </ul>
+    <button class="mt-4 w-full bg-[--color-primary-light] text-white px-4 py-2 rounded hover:bg-[--color-primary-light] hover:opacity-90" id="close-side-menu">Đóng</button>
+  </div>
+
+    <!-- Menu buttom bar -->
   <div class="menu-bottom flex flex-row items-center justify-between px-4 py-1 md:px-6 md:py-2 bg-[--color-primary] opacity-80 text-xs md:text" id="menu-bottom">
     <!-- group button 1 -->
     <div class="flex flex-row items-center gap-3">
@@ -199,17 +193,17 @@
     <div class="flex flex-row items-center gap-3 relative">
       <div class="relative">
         <!-- Nút add -->
-        <button 
+        <!-- <button 
           class="btn-add-location w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" 
           title="Thêm điểm di chuyển">
           <i class="fa-solid fa-add"></i>
-        </button>
+        </button> -->
       
         <!-- Nhóm 3 nút con -->
         <div class="submenu absolute bottom-full left-1/2 -translate-x-1/2 translate-y-[-15%] flex flex-col items-center gap-2 hidden bg-[--color-primary] p-2 rounded-lg shadow-lg">
           <button class="sub-btn w-8 h-8 border-2 border-white rounded-full text-[--color-quaternary] 
                          hover:border-[--color-secondary-light] hover:[--color-tertiary-light] flex items-center justify-center" 
-            data-controller="addHotpots" 
+            data-controller="addHotspot" 
             data-controller-attribute="markPoint"
             onclick="controllMenu(this)"
             title="Thêm điểm đánh dấu">
@@ -218,7 +212,7 @@
       
           <button class="sub-btn w-8 h-8 border-2 border-white rounded-full text-[--color-quaternary] 
                          hover:border-[--color-secondary-light] hover:[--color-tertiary-light] flex items-center justify-center" 
-            data-controller="addHotpots" 
+            data-controller="addHotspot" 
             data-controller-attribute="goAHead"
             onclick="controllMenu(this)"
             title="Thêm điểm di chuyển">
@@ -227,7 +221,7 @@
       
           <button class="sub-btn w-8 h-8 border-2 border-white rounded-full text-[--color-quaternary] 
                          hover:border-[--color-secondary-light] hover:[--color-tertiary-light] flex items-center justify-center" 
-            data-controller="addHotpots"
+            data-controller="addHotspot"
             data-controller-attribute="highLight"
             onclick="controllMenu(this)"
             title="Thêm điểm thông tin">
