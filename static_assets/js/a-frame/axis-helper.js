@@ -1,6 +1,49 @@
-function createAxis({id, rotation, axis, color}) {
+/**
+ * Create an axis entity for the hotspot
+ * @param {Object} spot - The hotspot data
+ * @returns {HTMLElement} The created axis entity
+ */
+const createAxisEntity = (spot) => {
+	const axisHelper = document.createElement("a-entity");
+	axisHelper.id = `axis-entity-${randomString(12)}-${Date.now()}`;
+
+	axisHelper.setAttribute("location-id", spot.id || "unknown-spot-id");
+	axisHelper.setAttribute("location-type", spot.type || "unknown-spot-type");
+
+	switch (spot.type) {
+		case "goAHead":
+			axisHelper.appendChild(createSpot(spot));
+			break;
+		case "highLight":
+			axisHelper.appendChild(createLHighlightSpots(spot));
+			break;
+		case "markPoint":
+			axisHelper.appendChild(createMarkPoint(spot));
+			break;
+		default:
+			axisHelper.appendChild(createSpot(spot));
+			break;
+	}
+
+	console.log("Added new hotpot:", axisHelper);
+
+	document.querySelector("a-scene").appendChild(axisHelper);
+	axisHelper.setAttribute("axis-helper", "");
+
+	setTimeout(() => {
+		axisHelper.setAttribute("position", spot.position);
+		axisHelper.setAttribute("rotation", spot.rotation);
+		axisHelper.setAttribute("scale", spot.scale);
+	}, 1);
+	return axisHelper;
+};
+
+function createAxis({ id, rotation, axis, color }) {
 	const axisEntity = document.createElement("a-entity");
-	axisEntity.setAttribute("handle-drag-and-drop", `axis: ${axis}; targetEl: #${id}`);
+	axisEntity.setAttribute(
+		"handle-drag-and-drop",
+		`axis: ${axis}; targetEl: #${id}`
+	);
 	axisEntity.setAttribute("class", "axis");
 	axisEntity.setAttribute("rotation", rotation);
 
@@ -43,65 +86,68 @@ function createAxisHelper(id = "targetBox", position = "0 1.25 -3") {
 	container.setAttribute("rotation", "0 0 0");
 
 	const entity = document.createElement("a-entity");
-    entity.setAttribute("class", "axis-helper");
+	entity.setAttribute("class", "axis-helper");
 
 	// X axis (red)
-	entity.appendChild(createAxis({
-        id: id,
-        axis: "x",
-        color: "#ff4444",
-        rotation: "0 0 -90"
-    }));
+	entity.appendChild(
+		createAxis({
+			id: id,
+			axis: "x",
+			color: "#ff4444",
+			rotation: "0 0 -90",
+		})
+	);
 
 	// Y axis (green)
-	entity.appendChild(createAxis({
-        id: id,
-        axis: "y",
-        color: "#44ff44",
-        rotation: "0 0 0"
-    }));
+	entity.appendChild(
+		createAxis({
+			id: id,
+			axis: "y",
+			color: "#44ff44",
+			rotation: "0 0 0",
+		})
+	);
 
 	// Z axis (blue)
-	entity.appendChild(createAxis({
-        id: id,
-        axis: "z",
-        color: "#4444ff",
-        rotation: "90 0 0"
-    }));
+	entity.appendChild(
+		createAxis({
+			id: id,
+			axis: "z",
+			color: "#4444ff",
+			rotation: "90 0 0",
+		})
+	);
 
 	entity.setAttribute("visible", false);
-    container.appendChild(entity);
+	container.appendChild(entity);
 
-    return true;
+	return true;
 }
 AFRAME.registerComponent("axis-helper", {
-    init: function () {
-        const el = this.el;
-        createAxisHelper(el.id);
-        this.isSelected = false;
-    }
+	init: function () {
+		const el = this.el;
+		createAxisHelper(el.id);
+		this.isSelected = false;
+	},
 });
-
-
 AFRAME.registerComponent("axis-selector", {
-    init: function () {
-        const el = this.el;
-        const parent = el.parentElement;
+	init: function () {
+		const el = this.el;
+		const parent = el.parentElement;
 
-        el.addEventListener("click", (event) => {
+		el.addEventListener("click", (event) => {
 			console.log("Click axis selector");
-            const groupAxis = parent.querySelector(".axis-helper");
+			const groupAxis = parent.querySelector(".axis-helper");
 			console.log("Group axis:", el);
-            if (groupAxis) {
-                const isVisible = !groupAxis.getAttribute("visible");
-                groupAxis.setAttribute("visible", isVisible);
+			if (groupAxis) {
+				const isVisible = !groupAxis.getAttribute("visible");
+				groupAxis.setAttribute("visible", isVisible);
 				const axes = groupAxis.querySelectorAll(".axis");
 				if (isVisible) {
-
 					if (window.__selectTargetId) {
 						const oldTarget = window.__selectTargetId;
 						const oldAxes = oldTarget.querySelectorAll(".axis");
-						oldAxes.forEach(axis => {
+						oldAxes.forEach((axis) => {
 							axis.classList.toggle("clickable", false);
 						});
 						setTimeout(() => {
@@ -110,7 +156,7 @@ AFRAME.registerComponent("axis-selector", {
 					}
 
 					window.__selectTargetId = groupAxis;
-					axes.forEach(axis => {
+					axes.forEach((axis) => {
 						axis.classList.toggle("clickable", true);
 					});
 					openCustomValuePop();
@@ -128,12 +174,11 @@ AFRAME.registerComponent("axis-selector", {
 				} else {
 					// remove class clickable cho cac axis
 					window.__selectTargetId = null;
-					axes.forEach(axis => {
+					axes.forEach((axis) => {
 						axis.classList.toggle("clickable", false);
 					});
 				}
-				
-            }
-        });
-    }
+			}
+		});
+	},
 });

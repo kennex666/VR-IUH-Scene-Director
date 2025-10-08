@@ -1,3 +1,8 @@
+/**
+ * Get the position in front of the camera
+ * @param {number} distance Distance in front of the camera
+ * @returns {Object} Position {x, y, z}
+ */
 function getForwardPosition(distance = 5) {
     const sceneEl = document.querySelector("a-scene");
 	const cameraEl = sceneEl.querySelector("#cam");
@@ -20,6 +25,23 @@ function getForwardPosition(distance = 5) {
 
     return hotspotPos;  
 }
+
+/**
+ * Get the current rotation of the camera
+ * @returns {Object} The current rotation {x, y, z}
+ */
+const getCurrentRotation = () => {
+	let cameraEl = document.querySelector("#cam");
+	// Access the custom-look component
+	console.log(cameraEl.components);
+	if (!cameraEl || !cameraEl.components["custom-look"]) {
+		console.warn("Camera or custom-look component not found.");
+		return { x: 0, y: 0, z: 0 };
+	}
+	let rotation = cameraEl.components["custom-look"].getCurrentRotation();
+	return rotation;
+}
+
 
 AFRAME.components["look-controls"].Component.prototype.onTouchMove = function (
 	t

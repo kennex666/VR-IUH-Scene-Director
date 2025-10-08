@@ -18,19 +18,29 @@
   <script src="https://unpkg.com/aframe-particle-system-component@1.1.0/dist/aframe-particle-system-component.min.js"></script>
   <script src="https://unpkg.com/aframe-animation-component@^5.0.0/dist/aframe-animation-component.min.js"></script>
   <script src="https://unpkg.com/aframe-look-at-component@1.0.0/dist/aframe-look-at-component.min.js"></script>
-
-  <script src="./static_assets/js/script.js"></script>
-  <script src="./static_assets/js/js-canvas-textpreview.js"></script>
-  <script src="./app_info.js"></script>
-  <script src="./static_assets/js/a-frame-controller.js"></script>
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-  <script src="/static_assets/js/modify-client.js"></script>
-  <script src="/static_assets/js/axis-helper.js"></script>
-  <script src="/static_assets/js/hotspot-helper.js"></script>
-  <script src="/static_assets/js/tab-scene.js"></script>
-  <script src="/static_assets/js/tab-message-handler.js"></script>
-  <script src="/static_assets/js/hotspots.js"></script>
-  <script src="./static_assets/js/event-handler.js"></script>
+
+  <script src="./app_info.js"></script>
+
+  <!-- <script src="./dist/bundle.js"></script> -->
+  <script src="./static_assets/js/index.js"></script>
+
+  <script src="./static_assets/js/a-frame/camera.js"></script>
+  <script src="./static_assets/js/a-frame/drop-drag.js"></script>
+  <script src="./static_assets/js/a-frame/axis-helper.js"></script>
+  <script src="./static_assets/js/a-frame/hotspots-components.js"></script>
+  
+  <script src="./static_assets/js/utils/js-canvas-textpreview.js"></script>
+  <script src="./static_assets/js/utils/string.js"></script>
+  <script src="./static_assets/js/utils/TabMessenger.js"></script>
+  <script src="./static_assets/js/utils/hotspots.js"></script>
+
+  <script src="./static_assets/js/instances/tab-message-handler.js"></script>
+  <script src="./static_assets/js/events/hotspots.js"></script>
+
+  <script src="./static_assets/js/ui/sidebar.js"></script>
+  <script src="./static_assets/js/ui/popup-coordinate.js"></script>
+  <script src="./static_assets/js/ui/scene.js"></script>
 
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intro.js/minified/introjs.min.css">
@@ -169,12 +179,12 @@
     <h2 class="text-lg font-bold mb-4 text-center">Hotspot</h2>
     <ul class="space-y-2 overflow-y-auto h-[80vh]" id="location-list">
       <!-- Locations will be dynamically added here -->
-      <li>
+      <!-- <li>
         <button class="w-full text-left px-2 py-1 rounded hover:bg-white/30 relative" data-location-id="Cs1-Sky-1224" onclick="">
           <img src="./static_assets/img/360/Cs1-E7-0425.jpg" alt="Trụ sở chính" class="w-full h-28 object-cover inline-block">
           <div class="bottom-1 absolute px-2 py-1 bg-[--color-primary] text-sm">Trụ sở chính</div>
         </button>
-      </li>
+      </li> -->
     </ul>
     <button class="mt-4 w-full bg-[--color-primary-light] text-white px-4 py-2 rounded hover:bg-[--color-primary-light] hover:opacity-90" id="close-side-menu">Đóng</button>
   </div>

@@ -1,0 +1,23 @@
+{
+  "name": "virtualtour-scene-director",
+  "version": "1.0.0",
+  "description": "**Immersive Scene Management for VR/XR Projects**",
+  "main": "app_info.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild static_assets/js/main.js --bundle --outfile=dist/bundle.js --format=iife --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kennex666/VR-IUH-Scene-Director.git"
+  },
+  "author": "Kennex666 x EchhOpp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kennex666/VR-IUH-Scene-Director/issues"
+  },
+  "homepage": "https://github.com/kennex666/VR-IUH-Scene-Director#readme"
+}

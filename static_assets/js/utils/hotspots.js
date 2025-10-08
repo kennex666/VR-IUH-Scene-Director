@@ -211,3 +211,18 @@ function loadHotspots(hotspots) {
 
     __hotspots = hotspots;
 }
+
+/**
+ * Remove all hotspot spots from the scene
+ */
+
+
+function removeAllSpots() {
+	const sceneEl = document.querySelector("a-scene");
+	const spots = sceneEl.querySelectorAll("a-entity[axis-helper]");
+
+	for (let spot of spots) {
+		sceneEl.removeChild(spot);
+	}
+	console.log("All spots removed.", { removedCount: spots.length });
+}
