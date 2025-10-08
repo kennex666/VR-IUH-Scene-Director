@@ -74,10 +74,7 @@
       <div id="assetsManagerLazy"></div>
       <a-assets id="assetsManager">
         <img id="hotspot" src="./static_assets/img/go.png"/>
-
-        <!-- init -->
-        <img id="Cs1-Sky-1224" src="./static_assets/img/360/Cs1-E7-0425.jpg"/>
-         
+ 
       </a-assets>
 
 
@@ -116,10 +113,18 @@
   <div class="fixed bottom-16 right-4 bg-[--color-primary] text-white p-4 rounded-lg shadow-lg z-40 hidden" id="popup-custom-value">
     <div class="popup-content">
       <h3 class="uppercase text-center font-bold">Chỉnh sửa</h3>
-      <select class="w-full text-black mt-4" id="pop-cus-val-select" disabled>
-        <option value="" disabled selected>Dịch chuyển đến</option>
-      </select>
-
+        <div>
+            <select class="w-full text-black mt-4" id="pop-cus-val-select" disabled>
+            <option value="" disabled selected>Dịch chuyển đến</option>
+        </select>
+        <div>
+            Loại hotspot:
+            <select class="text-black mt-4" id="pop-cus-val-type-hotspot-select" >
+                <option value="goAHead" selected>Điểm chỉ đường</option>
+                <option value="markPoint">Điểm nhấp nháy</option>
+            </select>
+        </div>
+      </div>
       <div class="tab-content mt-4">
         <div class="flex flex-col gap-1" tab="position">
           <div><label class="mr-2" for="posX">X:</label>
@@ -160,7 +165,7 @@
   </div>
 
   <!-- Create side menu -->
-  <div class="fixed top-0 left-0 h-full w-[18vw] bg-[--color-primary] text-white p-4 shadow-lg z-40" id="side-menu">
+  <div class="fixed top-0 left-0 h-full w-[18vw] bg-[--color-primary] text-white p-4 shadow-lg z-40 transition-transform duration-300" id="side-menu">
     <h2 class="text-lg font-bold mb-4 text-center">Hotspot</h2>
     <ul class="space-y-2 overflow-y-auto h-[80vh]" id="location-list">
       <!-- Locations will be dynamically added here -->
@@ -251,7 +256,7 @@
       <button data-intro="Bật/tắt toàn màn hình" data-step="10" class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller="fullScreen" onclick="controllMenu(this)" title="Full màn hình">
         <i class="fa-solid fa-expand"></i>
       </button>
-      <!-- <button class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller="goAhead" onclick="controllMenu(this)" title="Đi đến điểm kế tiếp">
+      <!-- <button class="w-6 h-6 md:w-8 md:h-8 border-2 border-white rounded-full text-[--color-quaternary] hover:border-[--color-secondary-light] hover:[--color-tertiary-light]" data-controller="goAHead" onclick="controllMenu(this)" title="Đi đến điểm kế tiếp">
         <i class="fa-solid fa-angles-right"></i>
       </button> -->
     </div>

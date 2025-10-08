@@ -1,3 +1,6 @@
+/*
+    Event listener for adding a new hotspot
+*/
 document.addEventListener("add-hotspot", (event) => {
 	const spot = event.detail;
 

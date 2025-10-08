@@ -156,7 +156,7 @@ function createSpotGroup(id, location, isShow = false) {
 
 	if (location.spots)
 		location.spots.forEach((spot) => {
-			if (spot.type == "goAhead") {
+			if (spot.type == "goAHead") {
 				const spotElement = createSpot(spot);
 				spotGroup.appendChild(spotElement);
 			} else if (spot.type == "highLight") {

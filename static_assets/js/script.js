@@ -16,22 +16,7 @@ const PageController = {
 	},
 };
 
-__hotspots = [
-	{
-		id: "Cs1-HallE-1224",
-		name: "Nhà hiệu bộ",
-		imageUrl: "./static_assets/img/360/Cs1-HallE-1224.jpg",
-	},
-	{
-		id: "Cs1-HallE4-1224",
-		name: "Hội trường E4",
-		imageUrl: "./static_assets/img/360/Cs1-HallE4-1224.jpg",
-	},
-	{
-		id: "Cs1-PracticeRoomSmartGrid-1224",
-		name: "Phòng thực hành Smart Grid",
-		imageUrl: "./static_assets/img/360/Cs1-PracticeRoomSmartGrid-1224.jpg",
-	},
+var __hotspots = [
 ];
 
 var currentScene = {
@@ -53,14 +38,22 @@ const randomString = (length = 6) => {
 	return result;
 }
 
+/**
+ * Select the location in the popup select
+ * @param {string} objId - The object id to select location for
+ */
 const selectLocationTab = (objId) => {
 	const id = document.querySelector(`#${objId}`).getAttribute("location-id");
+	const type = document.querySelector(`#${objId}`).getAttribute("location-type");
 	if (!id) {
 		console.warn("No current object selected.");
 		return;
 	}
 	
 	const selectLocationEl = document.querySelector("#pop-cus-val-select");
+	const selectLocationTypeEl = document.querySelector(
+		"#pop-cus-val-type-hotspot-select"
+	);
 	// check if there is no data options in select
 	const option = selectLocationEl.querySelector(`option[value="${id}"]`);
 	if (!option) {
@@ -72,8 +65,26 @@ const selectLocationTab = (objId) => {
 	} else {
 		option.selected = true;
 	}
+
+    if (type && selectLocationTypeEl) {
+        const optionType = selectLocationTypeEl.querySelector(`option[value="${type}"]`);
+		if (!optionType) {
+			const option = document.createElement("option");
+			option.value = type;
+			option.textContent = type;
+			selectLocationTypeEl.appendChild(option);
+			option.selected = true;
+		} else {
+			optionType.selected = true;
+		}
+	}
 }
 
+/**
+ * Set the custom object tab values
+ * @param {string} id 
+ * @param {Object} param1 - The custom object values
+ */
 const setCustomObjectTab = (id, { posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ }) => {
 	const popup = document.querySelector("#popup-custom-value");
 	popup.setAttribute("current-object-id", id);
@@ -89,12 +100,43 @@ const setCustomObjectTab = (id, { posX, posY, posZ, rotX, rotY, rotZ, scaleX, sc
 	selectLocationTab(id);
 }
 
+/**
+ * Handle popup tab modify
+ */
 const handleTabModify = () => {
 	const popup = document.querySelector("#popup-custom-value");
 
 	// handle chuyển tab
 	const tabButtons = popup.querySelectorAll("button[data-tab]");
 	const tabContents = popup.querySelectorAll(".tab-content [tab]");
+
+    // Listen select change 
+    const selectLocationEl = document.querySelector(
+		"#pop-cus-val-type-hotspot-select"
+	);
+    selectLocationEl.addEventListener("change", (e) => {
+        const currentObjId = popup.getAttribute("current-object-id");
+        console.log("Input changed for object:", currentObjId);
+        if (currentObjId) {
+            // Apply all attributes to the object
+            const obj = document.getElementById(currentObjId);
+            if (!obj) {
+                console.warn("Object not found:", currentObjId);
+                return;
+            }
+
+            const oldType = obj.getAttribute("location-type");
+
+            const locationId = obj.getAttribute("location-id");
+            if (oldType != popup.querySelector("#pop-cus-val-type-hotspot-select").value) {
+                changeTypeHotspot(
+                    locationId,
+                    popup.querySelector("#pop-cus-val-type-hotspot-select")
+                        .value
+                );
+            }
+        }
+    });
 
 	// Listen input change
 	const inputs = popup.querySelectorAll("input[data-input]");
@@ -246,6 +288,10 @@ const handleTabModify = () => {
 
 }
 
+/**
+ * Get the current rotation of the camera
+ * @returns {Object} The current rotation {x, y, z}
+ */
 const getCurrentRotation = () => {
 	let cameraEl = document.querySelector("#cam");
 	// Access the custom-look component
@@ -257,7 +303,11 @@ const getCurrentRotation = () => {
 	let rotation = cameraEl.components["custom-look"].getCurrentRotation();
 	return rotation;
 }
-
+/**
+ * Create an axis entity for the hotspot
+ * @param {Object} spot - The hotspot data
+ * @returns {HTMLElement} The created axis entity
+ */
 const createAxisEntity = (spot) => {
 	const axisHelper = document.createElement("a-entity");
 	axisHelper.id = `axis-entity-${randomString(12)}-${Date.now()}`;
@@ -293,28 +343,9 @@ const createAxisEntity = (spot) => {
 	return axisHelper;
 }
 
-const getSpotsFromScene = () => {
-	const sceneEl = document.querySelector("a-scene");
-	const spots = sceneEl.querySelectorAll("a-entity[location-id]");
-	const result = [];
-	spots.forEach(spot => {
-		const id = spot.getAttribute("location-id") || "unknown-id";
-		const type = spot.getAttribute("location-type") || "goAhead";
-		const position = spot.getAttribute("position") || { x: 0, y: 0, z: 0 };
-		const rotation = spot.getAttribute("rotation") || { x: 0, y: 0, z: 0 };
-		const scale = spot.getAttribute("scale") || { x: 1, y: 1, z: 1 };
-		result.push({
-			id,
-			type,
-			title: "Unknown Title",
-			position,
-			rotation,
-			scale,
-		});
-	});
-	return result;
-}
-
+/**
+ * Open popup custom value
+ */
 const openCustomValuePop = () => {
 	const popup = document.querySelector("#popup-custom-value");
 	popup.classList.toggle("hidden", false);
@@ -330,8 +361,10 @@ const MenuController = {
 		);
 		if (messenger) {
 			messenger.send("SET_FAVORITE_POSITION", {
-				id: currentScene.id,
-				rotation,
+				data: {
+					id: currentScene.id,
+					rotation,
+				},
 			});
 		}
 	},
@@ -365,6 +398,12 @@ const MenuController = {
 		}
 		alert("Dữ liệu hiện tại đã được lưu (xem console để biết chi tiết).");
 	},
+	openMenuLeft: () => {
+        const sidebar = document.querySelector("#side-menu");
+        if (sidebar) {
+            sidebar.classList.toggle("-translate-x-full");
+        }
+    }
 };
 
 function loadLocations(locations) {
@@ -406,6 +445,16 @@ function removeAllSpots() {
 	console.log("All spots removed.", { removedCount: spots.length });
 }
 
+function handleCloseSlideBar() {
+    const btnClose = document.querySelector("#close-side-menu");
+    const sidebar = document.querySelector("#side-menu");
+    if (btnClose && sidebar) {
+        btnClose.addEventListener("click", () => {
+            sidebar.classList.toggle("-translate-x-full");
+        });
+    }
+}
+
 function loadScene(data) {
 	const sceneData = data || null;
 	if (!sceneData || !sceneData.id) {
@@ -419,7 +468,10 @@ function loadScene(data) {
 	removeAllSpots();
 
 	const sceneEl = document.querySelector("a-scene");
-	
+	// Check if array
+    if (sceneData.assets && sceneData.assets && Array.isArray(sceneData.assets)) {
+        sceneData.assets = sceneData.assets[0];
+    }
 	if (sceneData.assets && sceneData.assets.images && sceneData.assets.images.highQuality) {
 		const skyEl = sceneEl.querySelector("a-sky");
 		if (skyEl) {
@@ -482,7 +534,7 @@ window.onload = function () {
 		spots: [
 			{
 				id: "Cs1-HallE-1224",
-				type: "goAhead",
+				type: "goAHead",
 				title: "Nhà hiệu bộ",
 				position: { x: -5.632, y: -9.5, z: -0.049 },
 				rotation: { x: -90, y: 90, z: 0 },
@@ -507,7 +559,24 @@ window.onload = function () {
 		],
 	};
 
-    loadScene(sceneTest);
+    // loadScene(sceneTest);
 
-    loadHotspots(__hotspots);
+    // loadHotspots(__hotspots);
+    handleCloseSlideBar();
+
+    // Check when scene loaded
+    const scene = document.querySelector('a-scene');
+    if (scene.hasLoaded) {
+        console.log('Scene has already loaded');
+        if (messenger) {
+            messenger.start();
+        }
+    } else {
+        scene.addEventListener('loaded', () => {
+            console.log('Scene loaded event fired');
+            if (messenger) {
+                messenger.start();
+            }
+        });
+    }
 }
