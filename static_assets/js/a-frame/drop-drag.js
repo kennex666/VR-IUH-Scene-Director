@@ -30,43 +30,52 @@ AFRAME.registerComponent("handle-drag-and-drop", {
 		});
 
         window.addEventListener("mousemove", (event) => {
-            if (window.__holdingAxis && window.__holdingAxis !== this.data.axis) return;
-            if (window.__holdingTarget && window.__holdingTarget !== this.el) return;
-            if (this.isHoldThisObject && this.isHolding) {
-                const { xDirect, yDirect, zDirect } = this.handleXYZMovement();
-                const { x, y, z } = this.targetEl.getAttribute("position");
-                if (this.data.axis === "x")
-                    this.targetEl.setAttribute("position", {
-						x: x + event.movementX * 0.01 * xDirect,
-						y: y,
-						z: z,
-					});
-                else if (this.data.axis === "y")
-                    this.targetEl.setAttribute("position", {
-						x: x,
-						y: y - (event.movementY * 0.01 * yDirect),
-						z: z,
-					}); 
-                else if (this.data.axis === "z")
-                    this.targetEl.setAttribute("position", {
-						x: x,
-						y: y,
-						z: z - (event.movementY * 0.01 + event.movementX * 0.01 * zDirect),
-					});
+			if (!this.isHoldThisObject || !this.isHolding) return;
+			if (window.__holdingTarget !== this.el) return;
 
-                // Dispatch event position-change
-                const newPos = this.targetEl.getAttribute("position");
-                document.dispatchEvent(new CustomEvent("position-change", {
-                    detail: {
-                        id: this.targetEl.id,
-                        x: newPos.x,
-                        y: newPos.y,
-                        z: newPos.z,
-                    }
-                }));
-                // console.log("Position changed:", newPos);
-            }
-        });
+			const cam = document.querySelector("#cam").object3D;
+			const target = this.targetEl.object3D;
+			const moveSpeed = 0.03;
+
+			// hướng camera
+			const dir = new THREE.Vector3();
+			cam.getWorldDirection(dir);
+			const right = new THREE.Vector3()
+				.crossVectors(cam.up, dir)
+				.normalize();
+			const up = cam.up.clone().normalize();
+
+			// hướng trục của object
+			const xAxis = new THREE.Vector3(1, 0, 0)
+				.applyQuaternion(target.quaternion)
+				.normalize();
+			const yAxis = new THREE.Vector3(0, 1, 0)
+				.applyQuaternion(target.quaternion)
+				.normalize();
+			const zAxis = new THREE.Vector3(0, 0, 1)
+				.applyQuaternion(target.quaternion)
+				.normalize();
+
+			// vector kéo theo chuột
+			const moveVec = new THREE.Vector3()
+				.addScaledVector(right, event.movementX * moveSpeed)
+				.addScaledVector(up, -event.movementY * moveSpeed);
+
+			// chiếu lên trục đang kéo
+			let axisVec =
+				this.data.axis === "x"
+					? xAxis
+					: this.data.axis === "y"
+					? yAxis
+					: zAxis;
+
+			const dragVec = axisVec
+				.clone()
+				.multiplyScalar(moveVec.dot(axisVec));
+
+			target.position.add(dragVec);
+			this.targetEl.setAttribute("position", target.position);
+		});
         window.addEventListener("mouseup", (event) => {
             this.isHolding = false;
             this.isHoldThisObject = false;
