@@ -28,7 +28,6 @@ var currentScene = {
 const MenuController = {
 	setFavorite: function () {
 		const rotation = getCurrentRotation();
-		alert("Vị trí hiện tại đã được đặt làm vị trí mặc định!");
 		console.log(
 			"Vị trí hiện tại đã được đặt làm vị trí mặc định:",
 			rotation
@@ -40,6 +39,23 @@ const MenuController = {
 					rotation,
 				},
 			});
+            messenger.ack = new Date().getTime();
+            setTimeout(() => {
+				if (messenger.ack) {
+					toastMessage(
+						"Không thể kết nối đến admin, hãy đóng tab này và mở lại bằng giao diện admin hoặc thử lại 1 lần nữa",
+						"error",
+						8000
+					);
+					messenger.ack = null;
+				}
+			}, 5000);
+		} else {
+			toastMessage(
+				"Không thể kết nối đến admin, hãy đóng tab này và mở lại bằng giao diện admin",
+				"error",
+				8000
+			);
 		}
 	},
 	toggleCustomValuePopup: function () {
@@ -69,8 +85,20 @@ const MenuController = {
 		console.log("Current scene data to save:", currentScene);
 		if (messenger) {
 			messenger.send("SAVE_CURRENT_SCENE", { data: currentScene });
-		}
-		alert("Dữ liệu hiện tại đã được lưu (xem console để biết chi tiết).");
+            messenger.ack = new Date().getTime();
+            setTimeout(() => {
+                if (messenger.ack) {
+                    toastMessage(
+						"Không thể kết nối đến admin, hãy đóng tab này và mở lại bằng giao diện admin hoặc thử lại 1 lần nữa",
+						"error",
+						8000
+					);
+                    messenger.ack = null;
+                }
+            }, 5000);
+		} else {
+            toastMessage("Không thể kết nối đến admin, hãy đóng tab này và mở lại bằng giao diện admin", "error", 8000);
+        }
 	},
 	openMenuLeft: () => {
         const sidebar = document.querySelector("#side-menu");
