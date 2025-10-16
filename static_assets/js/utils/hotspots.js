@@ -26,6 +26,9 @@ function changeTypeHotspot(id, newType) {
 
     setTimeout(() => {
         documentEl.removeChild(oldEl);
+        setTimeout(() => {
+            findHotspot(id);
+        }, 2);
     }, 2);
     return true
 }
@@ -210,6 +213,14 @@ function loadHotspots(hotspots) {
     })
 
     __hotspots = hotspots;
+
+    if (hotspots.length === 0) {
+        const noHotspotMsg = document.createElement('li');
+        noHotspotMsg.innerHTML = `<li>
+        <p class="text-center text-white">Chưa có địa điểm nào tại hotspot. Vui lòng quay lại quản lý kịch bản để thêm địa điểm.</p>
+       </li>`;
+        container.appendChild(noHotspotMsg);
+    }
 }
 
 /**

@@ -2,7 +2,6 @@ let sceneTest = {
 	id: "Cs1-Sky-1224",
 	title: "Trụ sở chính",
 	isDefault: true,
-	isHighlight: true,
 	rotation: { x: -0.7160000000000002, y: 1.5120000000000005, z: 0 },
 	description:
 		"Trường có trụ sở chính tại số 12 Nguyễn Văn Bảo, phường 1 quận Gò Vấp, Tp.HCM  là nơi phục vụ cho việc học tập và nghiên cứu của giảng viên, sinh viên tất cả các khoa gồm nhiều khu vực chức năng như các phòng học lý thuyết hiện đại, thư viện rộng lớn, khu vực thực hành với các phòng lab được trang bị đầy đủ thiết bị, khu vực thể thao và khuôn viên xanh mát. Ngoài ra, còn có các khu vực giải trí và căn tin phục vụ nhu cầu ăn uống của sinh viên.",

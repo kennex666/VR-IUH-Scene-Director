@@ -37,6 +37,7 @@
 
   <script src="./static_assets/js/instances/tab-message-handler.js"></script>
   <script src="./static_assets/js/events/hotspots.js"></script>
+  <script src="./static_assets/js/events/keyboard.js"></script>
 
   <script src="./static_assets/js/ui/sidebar.js"></script>
   <script src="./static_assets/js/ui/popup-coordinate.js"></script>
@@ -167,8 +168,7 @@
         <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30" data-tab="rotation">Xoay</button>
         <button class="px-2 py-1 border-white border text-white rounded hover:bg-white/30" data-tab="scale">Kích thước</button>
       </div>
-      <div class="grid-cols-3 grid gap-2">
-        <button data-tab="save" class="bg-[--color-primary-light] text-white px-4 py-2 rounded mt-4 hover:bg-[--color-primary-light] hover:opacity-90 col-span-2">Lưu thay đổi</button>
+      <div class="grid">
         <button data-tab="close" class="bg-[--color-primary-light] text-white px-4 py-2 rounded mt-4 hover:bg-[--color-primary-light] hover:opacity-90">Đóng</button>
       </div>
     </div>
@@ -176,8 +176,15 @@
 
   <!-- Create side menu -->
   <div class="fixed top-0 left-0 h-full w-[18vw] bg-[--color-primary] text-white p-4 shadow-lg z-40 transition-transform duration-300" id="side-menu">
-    <h2 class="text-lg font-bold mb-4 text-center">Hotspot</h2>
-    <ul class="space-y-2 overflow-y-auto h-[80vh]" id="location-list">
+    <div class="text-right mb-4 w-full">
+        <button class="w-full text-white hover:text-gray-300 border border-white rounded-md px-3 py-1" id="back-parent-btn" title="Quay lại admin">
+            Quay lại admin (ALT + Q)
+        </button>
+    </div>
+    <div class="mb-6 border-y border-white py-2">
+        <h2 class="font-semibold text-center" id="current-location-title">Unknown</h2>
+    </div>
+    <ul class="space-y-2 overflow-y-auto h-[70vh]" id="location-list">
       <!-- Locations will be dynamically added here -->
       <!-- <li>
         <button class="w-full text-left px-2 py-1 rounded hover:bg-white/30 relative" data-location-id="Cs1-Sky-1224" onclick="">
@@ -185,6 +192,10 @@
           <div class="bottom-1 absolute px-2 py-1 bg-[--color-primary] text-sm">Trụ sở chính</div>
         </button>
       </li> -->
+      <!-- If no have hotspot-->
+       <li>
+        <p class="text-center text-white">Chưa có địa điểm nào tại hotspot. Vui lòng quay lại quản lý kịch bản để thêm địa điểm.</p>
+       </li>
     </ul>
     <button class="mt-4 w-full bg-[--color-primary-light] text-white px-4 py-2 rounded hover:bg-[--color-primary-light] hover:opacity-90" id="close-side-menu">Đóng</button>
   </div>

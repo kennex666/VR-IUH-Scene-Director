@@ -36,11 +36,17 @@ function loadLocations(locations) {
  * }
  */
 function loadScene(data) {
+
 	const sceneData = data || null;
 	if (!sceneData || !sceneData.id) {
 		console.warn("Invalid scene data:", sceneData);
 		return;
 	}
+
+    const currentLocationTitle = document.getElementById(
+		"current-location-title"
+	);
+	currentLocationTitle.textContent = sceneData.title || "Unknown Location";
 
 	currentScene = sceneData;
 	console.log("Loading scene:", sceneData);

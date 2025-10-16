@@ -16,6 +16,7 @@ import "./a-frame/hotspots-components.js";
 // Instances & Events
 import "./instances/tab-message-handler.js";
 import "./events/hotspots.js";
+import "./events/keyboard.js";
 
 // UI components
 import "./ui/sidebar.js";
