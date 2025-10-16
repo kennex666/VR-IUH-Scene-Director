@@ -75,6 +75,19 @@ AFRAME.registerComponent("handle-drag-and-drop", {
 
 			target.position.add(dragVec);
 			this.targetEl.setAttribute("position", target.position);
+            
+            document.dispatchEvent(
+				new CustomEvent("position-change", {
+					detail: {
+						id: this.targetEl.id,
+						x: target.position.x,
+						y: target.position.y,
+						z: target.position.z,
+					},
+				})
+			);
+            
+
 		});
         window.addEventListener("mouseup", (event) => {
             this.isHolding = false;
